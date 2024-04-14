@@ -5,6 +5,7 @@ from google.cloud import exceptions
 
 class Connector_BigQuery:
 
+    Authenticated = False
     Client_Bq = None
     Credentials = None
     Json_Key_Path = None
@@ -26,6 +27,7 @@ class Connector_BigQuery:
             self.Credentials = service_account.Credentials.from_service_account_file(self.Json_Key_Path)
             self.Client_Bq = bigquery.Client(credentials=self.Credentials, project=self.Credentials.project_id)
             if self.Client_Bq:
+                self.Authenticated = True
                 return True
         except FileNotFoundError as e:
             msg = f"BigQuery Service Account JSON File {self.Json_Key_Path} not found"
